@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from flask-pymongo import PyMongo
+from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
