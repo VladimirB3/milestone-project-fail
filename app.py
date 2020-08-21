@@ -5,16 +5,16 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.config["MONGO_DBNAME"] = 'task_manager'
-app.config["MONGO_URI"] = 'mongodb+srv://puika:Meta7gear@myfirstcluster.lzacf.mongodb.net/videogames?retryWrites=true&w=majority'
+app.config["MONGO_DBNAME"] = 'videogames'
+app.config["MONGO_URI"] = os.getenv('MONGO_URI', 'mongodb://localhost')
 
 mongo = PyMongo(app)
 
 
 @app.route('/')
 @app.route('/get_games')
-def get_tasks():
-    return render_template("games.html", games=mongo.db.games.find())
+def get_games():
+    return render_template("games.html", games=list(mongo.db.games.find()))
 
 
 if __name__ == '__main__':
