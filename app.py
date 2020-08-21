@@ -1,40 +1,23 @@
 import pymongo
 import os
-from flask import Flask
+from flask import Flask, render_template, redirect, request, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
+app.config["MONGO_DBNAME"] = 'task_manager'
+app.config["MONGO_URI"] = 'mongodb+srv://puika:Meta7gear@myfirstcluster.lzacf.mongodb.net/videogames?retryWrites=true&w=majority'
 
-MONGODB_URI = os.getenv("MONGO_URI")
-DBS_NAME = "videogames"
-COLLECTION_NAME = "game"
-
-def mongo_connect(url):
-    try:
-        conn = pymongo.MongoClient(url)
-        print("Mongo is connected!")
-        return conn
-    except pymongo.errors.ConnectionFailure as e:
-        print("Could not connect to MongoDB: %s") % e
-        
-conn = mongo_connect(MONGODB_URI)
-
-coll = conn[DBS_NAME][COLLECTION_NAME]
-
-documents = coll.find()
-
-for doc in documents:
-    print(doc)
-
+mongo = PyMongo(app)
 
 
 @app.route('/')
-def hello():
-    return 'Hello Videogames...'
+@app.route('/get_games')
+def get_tasks():
+    return render_template("games.html", games=mongo.db.games.find())
 
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
-        port=int(os.environ.get('PORT')),
-        debug=True)
+            port=int(os.environ.get('PORT')),
+            debug=True)

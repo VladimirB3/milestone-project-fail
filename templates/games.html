@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+    {% for game in games %}
+        {{game.game_name}}
+        {{game.genre_name}}
+        {{game.developer_name}}
+        {{game.director_name}}
+        {{game.review_score}}
+    {% endfor %}
+</body>
+</html>
